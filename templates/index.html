@@ -23,15 +23,21 @@
             <input type="text" id="habitName" name="habitName" required>
             <button type="button" id="addHabitBtn">Add</button>
         </form>
-
+        <form id="customizationForm">
+            <label for="backgroundColor">Choose Background Color:</label>
+            <input type="color" id="backgroundColor" name="backgroundColor" value="#0e1b2b">
+            <button type="button" id="applyCustomizationBtn">Apply</button>
+        </form>
         <ul id="habitList">
             {% for habit in habits %}
                 <li>
-                    <span>{{ habit }}</span>
+                    <span>{{ habit.name }}</span>
+                    <button class="editBtn">Edit</button>
                     <button class="deleteBtn">Delete</button>
                 </li>
             {% endfor %}
         </ul>
+
     </main>
 </body>
 </html>
