@@ -96,6 +96,24 @@ li {
     animation: fadeIn 0.7s ease-in-out, magicalAppearance 0.7s ease-in-out;
 }
 
+.custom-background {
+    background-color: #0e1b2b; /* Dark blue background */
+}
+
+/* Style for customization form */
+#customizationForm {
+    margin-top: 20px;
+}
+
+#backgroundColor {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #005792; /* Deep blue border */
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+
 /* Add a subtle snowy animation */
 @keyframes snow {
     0%, 100% {
@@ -126,4 +144,20 @@ li button {
 
 li button:hover {
     background-color: #c63821; /* Darker pink on hover */
+}
+/* Style edit button to be to the right of the delete button */
+li .editBtn {
+    position: absolute;
+    top: 50%;
+    left: 100px; /* Adjust the distance from the left as needed */
+    transform: translateY(-50%);
+    background-color: #3498db; /* Blue edit button */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+li .editBtn:hover {
+    background-color: #2980b9; /* Darker blue on hover */
 }
