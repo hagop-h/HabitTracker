@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
-          //  alert(data.message);
             location.reload(); // Refresh the page to see the updated habits
         })
         .catch(error => {
@@ -135,37 +134,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to delete a habit
     function deleteHabit(habit) {
-        // Confirm deletion
-        //var confirmDelete = confirm('Are you sure you want to delete this habit?');
-
-        //if (confirmDelete) {
-            // Send delete request to the server
-            fetch('/delete_habit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'habitName=' + encodeURIComponent(habit),
-            })
-            .then(response => response.json())
-            .then(data => {
-          //      alert(data.message);
-                location.reload(); // Refresh the page to see the updated habits
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        //}
+        fetch('/delete_habit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'habitName=' + encodeURIComponent(habit),
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload(); // Refresh the page to see the updated habits
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
+
+    // Function to apply customization
+    function applyCustomization() {
+        var backgroundColor = document.getElementById('backgroundColor').value;
+
+        // Update the body background color
+        document.body.style.backgroundColor = backgroundColor;
+    }
+
+    // Add event listener for customization form
+    document.getElementById('applyCustomizationBtn').addEventListener('click', applyCustomization);
 
     // Add event listeners
     document.getElementById('addHabitBtn').addEventListener('click', addHabit);
 
     var deleteButtons = document.querySelectorAll('.deleteBtn');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
             var habit = this.parentNode.querySelector('span').textContent;
             deleteHabit(habit);
         });
     });
+
 });
