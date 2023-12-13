@@ -129,6 +129,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update date and time every second (1000 milliseconds)
     setInterval(updateDateTime, 1000);
 
+    // Add event listener for habitForm submission
+    document.getElementById('habitForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        addHabit();
+    });
+
     // Function to add a new habit
     function addHabit() {
         const habitName = document.getElementById('habitName').value;
@@ -156,14 +162,44 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Get all spans containing habit names
-    const habitSpans = document.querySelectorAll('span');
+    // Get all spans with class 'editable'
+    const editableSpans = document.querySelectorAll('span.editable');
 
-    // Add blur event listener to each span for disabling content editing
-    habitSpans.forEach(function (span) {
+    // Add click event listener to each editable span
+    editableSpans.forEach(function (span) {
+        span.addEventListener('click', function () {
+            // Enable content editing on the span and set focus
+            this.contentEditable = 'true';
+            this.focus();
+        });
+
+        // Add blur event listener to each editable span
         span.addEventListener('blur', function () {
-            // Disable content editing when focus is lost
-            this.contentEditable = 'false';
+            const habitId = this.dataset.habitId;
+            const newText = this.textContent.trim();
+
+            // Check if the edited text is empty
+            if (newText === '') {
+                // Send request to delete the habit
+                deleteHabit(habitId);
+            } else {
+                // Send the edited habit data to the server
+                fetch('/edit_habit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `habitId=${encodeURIComponent(habitId)}&newText=${encodeURIComponent(newText)}`,
+                })
+                .then(response => response.json())
+                .then(() => {
+                    // Optional: Add feedback to the user that the habit was edited successfully
+                    console.log('Habit edited successfully');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
         });
     });
 
@@ -200,7 +236,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Retrieve the stored background color from local storage
     const storedBackgroundColor = localStorage.getItem('backgroundColor');
+
+    // Check if a background color is stored
     if (storedBackgroundColor) {
         document.body.style.backgroundColor = storedBackgroundColor;
     }
@@ -226,11 +265,12 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('addHabitBtn').addEventListener('click', addHabit);
 
     const deleteButtons = document.querySelectorAll('.deleteBtn');
+
+    // Add click event listener to each delete button
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             const habit = this.parentNode.querySelector('span').textContent;
             deleteHabit(habit);
         });
     });
-
 });
