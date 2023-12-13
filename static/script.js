@@ -105,9 +105,33 @@ document.addEventListener('DOMContentLoaded', function () {
         retina_detect: true,
     });
 
+    // Function to update date and time
+    function updateDateTime() {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Format the date and time (adjust the format according to your needs)
+        // Display the date and time in the element with the ID "dateTime"
+        document.getElementById('dateTime').textContent = currentDate.toLocaleString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+        });
+    }
+
+    // Update initial date and time
+    updateDateTime();
+
+    // Update date and time every second (1000 milliseconds)
+    setInterval(updateDateTime, 1000);
+
     // Function to add a new habit
     function addHabit() {
-        var habitName = document.getElementById('habitName').value;
+        const habitName = document.getElementById('habitName').value;
 
         // Check if the habitName is not empty
         if (!habitName.trim()) {
@@ -124,13 +148,39 @@ document.addEventListener('DOMContentLoaded', function () {
             body: 'habitName=' + encodeURIComponent(habitName),
         })
         .then(response => response.json())
-        .then(data => {
+        .then(() => {
             location.reload(); // Refresh the page to see the updated habits
         })
         .catch(error => {
             console.error('Error:', error);
         });
     }
+
+    // Get all spans containing habit names
+    const habitSpans = document.querySelectorAll('span');
+
+    // Add blur event listener to each span for disabling content editing
+    habitSpans.forEach(function (span) {
+        span.addEventListener('blur', function () {
+            // Disable content editing when focus is lost
+            this.contentEditable = 'false';
+        });
+    });
+
+    // Get all buttons with class 'editBtn'
+    const editButtons = document.querySelectorAll('.editBtn');
+
+    // Add click event listener to each 'Edit' button
+    editButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Find the span associated with the clicked 'Edit' button
+            const habitSpan = this.parentNode.querySelector('span');
+
+            // Enable content editing on the span and set focus
+            habitSpan.contentEditable = 'true';
+            habitSpan.focus();
+        });
+    });
 
     // Function to delete a habit
     function deleteHabit(habit) {
@@ -142,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
             body: 'habitName=' + encodeURIComponent(habit),
         })
         .then(response => response.json())
-        .then(data => {
+        .then(() => {
             location.reload(); // Refresh the page to see the updated habits
         })
         .catch(error => {
@@ -150,24 +200,35 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    const storedBackgroundColor = localStorage.getItem('backgroundColor');
+    if (storedBackgroundColor) {
+        document.body.style.backgroundColor = storedBackgroundColor;
+    }
+
     // Function to apply customization
     function applyCustomization() {
-        var backgroundColor = document.getElementById('backgroundColor').value;
-
-        // Update the body background color
-        document.body.style.backgroundColor = backgroundColor;
+        const newBackgroundColor = document.getElementById('backgroundColor').value;
+        document.body.style.backgroundColor = newBackgroundColor;
+        localStorage.setItem('backgroundColor', newBackgroundColor);
     }
 
     // Add event listener for customization form
     document.getElementById('applyCustomizationBtn').addEventListener('click', applyCustomization);
 
+    // Add event listener for Enter key
+    document.getElementById('habitName').addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            addHabit();
+        }
+    });
+
     // Add event listeners
     document.getElementById('addHabitBtn').addEventListener('click', addHabit);
 
-    var deleteButtons = document.querySelectorAll('.deleteBtn');
+    const deleteButtons = document.querySelectorAll('.deleteBtn');
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function () {
-            var habit = this.parentNode.querySelector('span').textContent;
+            const habit = this.parentNode.querySelector('span').textContent;
             deleteHabit(habit);
         });
     });

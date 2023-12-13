@@ -6,19 +6,23 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///habits.db'  # SQLite database file
 db = SQLAlchemy(app)
 
+
 # Habit model
 class Habit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
 
+
 # Wrap the creation of tables in app.app_context()
 with app.app_context():
     db.create_all()
+
 
 @app.route('/')
 def index():
     habits = Habit.query.all()
     return render_template('index.html', habits=habits)
+
 
 @app.route('/add_habit', methods=['POST'])
 def add_habit():
@@ -46,7 +50,6 @@ def delete_habit():
         return jsonify(message='Habit deleted successfully')
     else:
         return jsonify(message='Habit not found')
-
 
 
 if __name__ == '__main__':

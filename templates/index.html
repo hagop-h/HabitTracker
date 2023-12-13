@@ -4,36 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <title>New Year, New Me - Habit Tracker</title>
+    <title>Habit Tracker</title>
 </head>
 <body>
     <div id="fireworks-container"></div>
 
     <header>
+        <p id="dateTime"></p>
         <h1>New Year, New Me - Habit Tracker</h1>
-        <p>Celebrate your journey of self-improvement! Add positive habits to make this year your best one yet.</p>
+        <p>Celebrate your journey of self-improvement ! Add positive habits to make this year your best one yet.</p>
     </header>
 
     <main>
         <form id="habitForm">
-            <label for="habitName">Add a New Habit:</label>
+            <label for="habitName">Add a New Habit :</label>
             <input type="text" id="habitName" name="habitName" required>
             <button type="button" id="addHabitBtn">Add</button>
         </form>
         <form id="customizationForm">
-            <label for="backgroundColor">Choose Background Color:</label>
+            <label for="backgroundColor">Choose a Background Color :</label>
             <input type="color" id="backgroundColor" name="backgroundColor" value="#0e1b2b">
             <button type="button" id="applyCustomizationBtn">Apply</button>
         </form>
         <ul id="habitList">
             {% for habit in habits %}
                 <li>
-                    <span>{{ habit.name }}</span>
                     <button class="editBtn">Edit</button>
                     <button class="deleteBtn">Delete</button>
+                    <span id="habit-{{ habit.id }}">{{ habit.name }}</span>
                 </li>
             {% endfor %}
         </ul>

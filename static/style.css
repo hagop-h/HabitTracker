@@ -39,6 +39,8 @@ main {
 }
 
 form {
+    align-items: center;
+    justify-content: center;
     margin-top: 20px;
 }
 
@@ -63,6 +65,8 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    align-items: center;
+    box-shadow: 2px 2px;
 }
 
 button:hover {
@@ -72,6 +76,9 @@ button:hover {
 ul {
     list-style-type: none;
     padding: 0;
+    max-width: 600px;
+    margin: 30px auto 0;
+    word-wrap: break-word;
 }
 
 li {
@@ -94,6 +101,7 @@ li {
 
 li {
     animation: fadeIn 0.7s ease-in-out, magicalAppearance 0.7s ease-in-out;
+    border-radius: 15px 0;
 }
 
 .custom-background {
@@ -133,7 +141,7 @@ ul {
 li button {
     position: absolute;
     top: 50%;
-    left: 10px;
+    left: 630px;
     transform: translateY(-50%);
     background-color: #e44d26; /* Coral pink button */
     color: #ffffff; /* White text */
@@ -149,7 +157,7 @@ li button:hover {
 li .editBtn {
     position: absolute;
     top: 50%;
-    left: 100px; /* Adjust the distance from the left as needed */
+    left: -90px; /* Adjust the distance from the left as needed */
     transform: translateY(-50%);
     background-color: #3498db; /* Blue edit button */
     color: #ffffff; /* White text */
