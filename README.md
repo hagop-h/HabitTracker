@@ -32,6 +32,8 @@ pip install Flask Flask-SQLAlchemy
 - **Flask** : A micro web framework for **Python**.
 - **Flask-SQLAlchemy** : **SQLAlchemy** support for **Flask**, providing easy database integration.
 
+Note : If you don't have **pip** installed, you can install it by following the instructions [here](https://pip.pypa.io/en/stable/installation/).
+
 ## Getting started
 
 Run the Flask application :
